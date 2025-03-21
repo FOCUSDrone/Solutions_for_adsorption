@@ -15,4 +15,6 @@
 ## 2025/3/16了解IIC的配置，理解对应代码
 ## 2025/3/17 找到一个库和教程，不知道为什么传不回ID号 附一下教程 https://www.bilibili.com/video/BV1HK411y7Bc/?spm_id_from=333.337.search-card.all.click&vd_source=195e644b6e3eba008e4a5705144b92df
 调试的时候c板用的句柄要改一下
-## 2025/3/21 可以传回ID号了。
+## 2025/3/21 可以传回ID号了。 但是接线好像不太对。
+https://blog.csdn.net/qq_56632135/article/details/143844192?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522773ebf6a31eccda72901a7bae6393109%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=773ebf6a31eccda72901a7bae6393109&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-143844192-null-null.142^v102^pc_search_result_base8&utm_term=INA226&spm=1018.2226.3001.4187
+#### 找到一个接线的教程，明天试一下。
