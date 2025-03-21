@@ -15,3 +15,4 @@
 ## 2025/3/16了解IIC的配置，理解对应代码
 ## 2025/3/17 找到一个库和教程，不知道为什么传不回ID号 附一下教程 https://www.bilibili.com/video/BV1HK411y7Bc/?spm_id_from=333.337.search-card.all.click&vd_source=195e644b6e3eba008e4a5705144b92df
 调试的时候c板用的句柄要改一下
+## 2025/3/21 可以传回ID号了。
