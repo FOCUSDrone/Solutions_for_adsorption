@@ -18,3 +18,4 @@
 ## 2025/3/21 可以传回ID号了。 但是接线好像不太对。
 https://blog.csdn.net/qq_56632135/article/details/143844192?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522773ebf6a31eccda72901a7bae6393109%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=773ebf6a31eccda72901a7bae6393109&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-143844192-null-null.142^v102^pc_search_result_base8&utm_term=INA226&spm=1018.2226.3001.4187
 #### 找到一个接线的教程，明天试一下。
+## 2025/3/25 迁移到c板代码上可以读出数据，但是代码有待整理
