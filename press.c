@@ -5,28 +5,28 @@
 #define PRESS_R_ADDRESS              (0x6D<<1)|0x01
 #define PRESS_CMD_REG                0x30
 #define PRESS_DATA_REG               0x06
-//#define COMBINE_MODE
+//#define SINGLE_MODE
 
-uint8_t combine_mode_cmd = 0xA0;
-uint8_t sleep_mode_cmd_short = 0x1B;    //62.5ms
-uint8_t sleep_mode_cmd_medium = 0x2B;   //125ms
-uint8_t sleep_mode_cmd_long = 0x7B;     //1s
-uint8_t sleep_mode_cmd_stop = 0x08;     
+uint8_t single_mode_cmd = 0xA0;
+uint8_t circle_mode_cmd_short = 0x1B;    //62.5msé‡‡é›†ä¸€æ¬¡æ•°æ®
+uint8_t circle_mode_cmd_medium = 0x2B;   //125msé‡‡é›†ä¸€æ¬¡æ•°æ®
+uint8_t circle_mode_cmd_long = 0x7B;     //1sé‡‡é›†ä¸€æ¬¡æ•°æ®
+uint8_t circle_mode_cmd_stop = 0x08;     
 uint8_t press_data[3] = {0};
 
-#ifdef COMBINE_MODE
+#ifdef SINGLE_MODE
 
-/*Îª±ÜÃâËµÃ÷ÊéÉÏÐèÒª¿ªÆô²âÁ¿ºóÑÓÊ±20ms´øÀ´µÄ²»ÀûÓ°Ïì£¬½«startºÍget_dataº¯Êý·Ö¿ª
-Ç°Õß¿ÉÔÚÃ¿´Î±Õ»·¿ØÖÆºóÔÙ´Îµ÷ÓÃ£¬µ½ÏÂÒ»´Î¿ØÖÆÊ±ÒÑ¾­¹ýÈ¥³¬¹ý20msÁË*/
+/*ä¸ºé¿å…è¯´æ˜Žä¹¦ä¸Šéœ€è¦å¼€å¯æµ‹é‡åŽå»¶æ—¶20mså¸¦æ¥çš„ä¸åˆ©å½±å“ï¼Œå°†startå’Œget_dataå‡½æ•°åˆ†å¼€
+å‰è€…å¯åœ¨æ¯æ¬¡é—­çŽ¯æŽ§åˆ¶åŽå†æ¬¡è°ƒç”¨ï¼Œåˆ°ä¸‹ä¸€æ¬¡æŽ§åˆ¶æ—¶å·²ç»è¿‡åŽ»è¶…è¿‡20msäº†*/
 void press_measure_start(void)
 {
     HAL_I2C_Mem_Write(&hi2c2, PRESS_W_ADDRESS, PRESS_CMD_REG,
-                        I2C_MEMADD_SIZE_8BIT, &combine_mode_cmd, 1, 10000);
+                        I2C_MEMADD_SIZE_8BIT, &single_mode_cmd, 1, 10000);
 }
 
 void press_measure_stop()
 {
-    return;     //×éºÏÄ£Ê½ÏÂÓ²¼þ×Ô¶¯½«socÖÃ1£¬²»ÓÃÊÖ¶¯Í£Ö¹
+    return;     //ç»„åˆæ¨¡å¼ï¼ˆå³å•æ¬¡æ¨¡å¼ï¼‰ä¸‹ç¡¬ä»¶è‡ªåŠ¨å°†socç½®1ï¼Œä¸ç”¨æ‰‹åŠ¨åœæ­¢
 }
 
 uint32_t get_press_data(void)
@@ -41,15 +41,15 @@ uint32_t get_press_data(void)
         Timeout--;
         if(!Timeout)
             break;
-    } while (wait_for_complete & 0x08 != 0);    //µÈ´ýsocÎ» ÖÃÒ»²âÁ¿Íê³É
-    //HAL_Delay(20);                            //ËµÃ÷ÊéÉÏÒªÑÓÊ±20ms£¬µ«ÊÇ²»ÑÓÊ±ËÆºõ²»Ó°Ïì²âÁ¿
+    } while (wait_for_complete & 0x08 != 0);    //ç­‰å¾…socä½ ç½®ä¸€æµ‹é‡å®Œæˆ
+    //HAL_Delay(20);                            //è¯´æ˜Žä¹¦ä¸Šè¦å»¶æ—¶20msï¼Œä½†æ˜¯ä¸å»¶æ—¶ä¼¼ä¹Žä¸å½±å“æµ‹é‡
     HAL_I2C_Mem_Read(&hi2c2, PRESS_R_ADDRESS, PRESS_DATA_REG,
                      I2C_MEMADD_SIZE_8BIT, press_data, 3, 10000);
     pressure = (press_data[0] << 16) | (press_data[1] << 8) | (press_data[2]);
     if((pressure&0x00800000)==0){
-        return 0;                               //×î¸ßÎ»Îª0±íÊ¾²âµÃÕýÑ¹Á¦£¬Ö±½Ó¼ÆÑ¹Á¦Îª0
+        return 0;                               //æœ€é«˜ä½ä¸º0è¡¨ç¤ºæµ‹å¾—æ­£åŽ‹åŠ›ï¼Œç›´æŽ¥è®¡åŽ‹åŠ›ä¸º0
     }
-    return 16777216 - pressure;                 //ÕâÊÇ¸ºÑ¹Á¦µÄ¾ø¶ÔÖµ
+    return 16777216 - pressure;                 //è¿™æ˜¯è´ŸåŽ‹åŠ›çš„ç»å¯¹å€¼
 }
 
 #else
@@ -57,14 +57,14 @@ uint32_t get_press_data(void)
 void press_measure_start(void)
 {
     HAL_I2C_Mem_Write(&hi2c2, PRESS_W_ADDRESS, PRESS_CMD_REG,
-                        I2C_MEMADD_SIZE_8BIT, &sleep_mode_cmd_medium, 1, 10000);
+                        I2C_MEMADD_SIZE_8BIT, &circle_mode_cmd_medium, 1, 10000);
 }
 
 void press_measure_stop(void)
 {
     HAL_I2C_Mem_Write(&hi2c2, PRESS_W_ADDRESS, PRESS_CMD_REG,
-        I2C_MEMADD_SIZE_8BIT, &sleep_mode_cmd_stop, 1, 10000);
-        //ÐÝÃßÄ£Ê½ÏÂ£¬ÐèÒªÈí¼þ×ÔÐÐ½«socÖÃ1Í£Ö¹²É¼¯
+        I2C_MEMADD_SIZE_8BIT, &circle_mode_cmd_stop, 1, 10000);
+        //ä¼‘çœ æ¨¡å¼(å³å¾ªçŽ¯æ¨¡å¼)ä¸‹ï¼Œéœ€è¦è½¯ä»¶è‡ªè¡Œå°†socç½®1åœæ­¢é‡‡é›†
 }
 
 uint32_t get_press_data(void)
@@ -74,9 +74,9 @@ uint32_t get_press_data(void)
                      I2C_MEMADD_SIZE_8BIT, press_data, 3, 10000);
     pressure = (press_data[0] << 16) | (press_data[1] << 8) | (press_data[2]);
     if((pressure&0x00800000)==0){
-        return 0;                               //×î¸ßÎ»Îª0±íÊ¾²âµÃÕýÑ¹Á¦£¬Ö±½Ó¼ÆÑ¹Á¦Îª0
+        return 0;                               //æœ€é«˜ä½ä¸º0è¡¨ç¤ºæµ‹å¾—æ­£åŽ‹åŠ›ï¼Œç›´æŽ¥è®¡åŽ‹åŠ›ä¸º0
     }
-    return 16777216 - pressure;                 //ÕâÊÇ¸ºÑ¹Á¦µÄ¾ø¶ÔÖµ
+    return 16777216 - pressure;                 //è¿™æ˜¯è´ŸåŽ‹åŠ›çš„ç»å¯¹å€¼
 }
 
 #endif
