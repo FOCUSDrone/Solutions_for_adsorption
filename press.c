@@ -38,8 +38,8 @@ uint32_t get_press_data(void)
     do{
         HAL_I2C_Mem_Read(&hi2c2, PRESS_R_ADDRESS, PRESS_CMD_REG,
                         I2C_MEMADD_SIZE_8BIT, &wait_for_complete, 1, 10000);
-        Timeout--;
-        if(!Timeout)
+        timeout--;
+        if(!timeout)
             break;
     } while (wait_for_complete & 0x08 != 0);    //等待soc位 置一测量完成
     //HAL_Delay(20);                            //说明书上要延时20ms，但是不延时似乎不影响测量
