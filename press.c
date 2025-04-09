@@ -46,10 +46,12 @@ uint32_t get_press_data(void)
     HAL_I2C_Mem_Read(&hi2c2, PRESS_R_ADDRESS, PRESS_DATA_REG,
                      I2C_MEMADD_SIZE_8BIT, press_data, 3, 10000);
     pressure = (press_data[0] << 16) | (press_data[1] << 8) | (press_data[2]);
-    if((pressure&0x00800000)==0){
-        return 0;                               //最高位为0表示测得正压力，直接计压力为0
-    }
-    return 16777216 - pressure;                 //这是负压力的绝对值
+	  if ((pressure & 0x00100000)==0)   pressure= 0;
+	  if (pressure > 8388608) //超过 8388606 为负压值，需在显示终端做正负号处理
+    pressure = (16777216 - pressure) / 64; //单位为 Pa
+    else
+    pressure = pressure / 64; //单位为 Pa
+    return pressure;                 //这是负压力的绝对值
 }
 
 #else
@@ -73,10 +75,12 @@ uint32_t get_press_data(void)
     HAL_I2C_Mem_Read(&hi2c2, PRESS_R_ADDRESS, PRESS_DATA_REG,
                      I2C_MEMADD_SIZE_8BIT, press_data, 3, 10000);
     pressure = (press_data[0] << 16) | (press_data[1] << 8) | (press_data[2]);
-    if((pressure&0x00800000)==0){
-        return 0;                               //最高位为0表示测得正压力，直接计压力为0
-    }
-    return 16777216 - pressure;                 //这是负压力的绝对值
+	  if ((pressure & 0x00100000)==0)   pressure= 0;
+	  if (pressure > 8388608) //超过 8388606 为负压值，需在显示终端做正负号处理
+    pressure = (16777216 - pressure) / 64; //单位为 Pa
+    else
+    pressure = pressure / 64; //单位为 Pa
+    return pressure;                 //这是负压力的绝对值
 }
 
 #endif
